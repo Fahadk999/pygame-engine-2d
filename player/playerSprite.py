@@ -1,5 +1,5 @@
 import pygame
-from utils.player.playerStd import PlayerStd
+from .playerStd import PlayerStd
 
 class PlayerSprite (PlayerStd):
     def __init__(self, x, y, path, scale=1):
