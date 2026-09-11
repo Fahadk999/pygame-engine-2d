@@ -9,7 +9,7 @@ clock = pygame.time.Clock()
 running = True
 bg = "#2b7aa8"
 
-effect = ParticleEffect(width/2, height/2, 3, 4, 5)
+effect = ParticleEffect(10, 5)
 
 while running:
     dt = clock.tick(60)/1000 # for time in sec rather then mili sec
@@ -22,7 +22,7 @@ while running:
 
     keys = pygame.key.get_pressed()
 
-    effect.update(dt, width, height)
+    effect.update(dt, width//2, height//2, -30, 5, 140, 1)
     screen.fill(bg)
     effect.draw(screen)
 
