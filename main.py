@@ -1,5 +1,5 @@
 import pygame
-from particles.particle import Particle
+from particles.particleEffect import ParticleEffect
 pygame.init()
 
 width, height = 720, 720
@@ -9,13 +9,10 @@ clock = pygame.time.Clock()
 running = True
 bg = "#2b7aa8"
 
-particleGroup = pygame.sprite.Group()
-timer = 0
-spawnTimer = 50
+effect = ParticleEffect(width/2, height/2, 3, 4, 5)
 
 while running:
-    dt = clock.tick(60)
-    timer += dt
+    dt = clock.tick(60)/1000 # for time in sec rather then mili sec
     events = pygame.event.get()
     for event in events:
         if event.type == pygame.QUIT:
@@ -24,13 +21,10 @@ while running:
             running = False
 
     keys = pygame.key.get_pressed()
-    if timer >= spawnTimer:
-        particleGroup.add(Particle(width//2, height//2))
-        timer = 0
 
-    particleGroup.update(dt)
+    effect.update(dt, width, height)
     screen.fill(bg)
-    particleGroup.draw(screen)
+    effect.draw(screen)
 
     pygame.display.flip()
 

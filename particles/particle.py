@@ -3,9 +3,9 @@ import math
 from random import uniform
 
 class Particle(pygame.sprite.Sprite):
-    def __init__ (self, x, y):
+    def __init__ (self, x, y, angle):
         super().__init__() 
-        self.speed = 4
+        self.speed = 140
         self.floatX = x
         self.floatY = y
         w = 8
@@ -18,12 +18,12 @@ class Particle(pygame.sprite.Sprite):
         self.moveY = math.sin(angle)*self.speed
 
         self.timer = 0
-        self.deathTime = 1000
+        self.deathTime = 1
 
     def update (self, dt):
         self.timer += dt
-        self.floatX += self.moveX
-        self.floatY += self.moveY
+        self.floatX += self.moveX*dt
+        self.floatY += self.moveY*dt
 
         self.rect.centerx = int(self.floatX)
         self.rect.centery = int(self.floatY)
