@@ -1,23 +1,21 @@
 import pygame
-from button.buttonAnimated import ButtonAnimated
-from animationManager.spriteAnimator import AnimatedSprite
+from particles.particle import Particle
 pygame.init()
 
-WIDTH, HEIGHT = 720, 720
+width, height = 720, 720
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.NOFRAME)
+screen = pygame.display.set_mode((width, height), pygame.NOFRAME)
 clock = pygame.time.Clock()
 running = True
 bg = "#2b7aa8"
-frames = [f"assets/upgrade_animation/upgrade_{i}.png" for i in range(0, 7)]
 
-button = ButtonAnimated(100, 100, frames)
+particleGroup = pygame.sprite.Group()
+timer = 0
+spawnTimer = 50
 
-def changeColor(b):
-    global bg
-    bg = b
 while running:
     dt = clock.tick(60)
+    timer += dt
     events = pygame.event.get()
     for event in events:
         if event.type == pygame.QUIT:
@@ -26,16 +24,13 @@ while running:
             running = False
 
     keys = pygame.key.get_pressed()
-    mousePos = pygame.mouse.get_pos()
-    button.hover(mousePos)
-    if button.isHovered:
-        button.update(dt)
+    if timer >= spawnTimer:
+        particleGroup.add(Particle(width//2, height//2))
+        timer = 0
 
-    button.click(events, changeColor, pygame.Color("blue"))
-    
+    particleGroup.update(dt)
     screen.fill(bg)
-
-    button.draw(screen)
+    particleGroup.draw(screen)
 
     pygame.display.flip()
 

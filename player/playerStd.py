@@ -3,18 +3,20 @@ from ui.imageloader import LoadImage
 
 class PlayerStd(pygame.sprite.Sprite):
     def __init__(self, x, y, path="", width=100, height=100, scale:float=1.0):
+        super().__init__()
         self.x, self.y = x, y
         self.speed = 5
-        self.color = pygame.Color("white")
-        if path == "":
-            self.image = pygame.Surface((width, height))
-            self.image.fill(self.color)
-            newRect = self.image.get_rect(center=(x,y))
+
+        if path != "":
+            self.loader = LoadImage(x, y, path, scale)
+            self.image = self.loader.image
+            self.rect = self.loader.rect
         else:
-            self.rawImage = LoadImage(x, y, path, scale)
-            self.image = self.rawImage.image
-            newRect = self.rawImage.rect
-        self.rect = newRect
+            self.loader = None
+            self.image = pygame.Surface((width, height))
+            self.color = pygame.Color("white")
+            self.image.fill(self.color)
+            self.rect = self.image.get_rect(center=(x,y))
 
     def update (self, keys, swidth, sheight):
         self.move(keys, swidth, sheight)

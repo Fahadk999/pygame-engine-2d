@@ -10,7 +10,7 @@ class LoadImage:
 
         if scale != 1.0:
             self.image = pygame.transform.scale_by(
-                self.rawImage, scale
+                croppedImage, scale
             )
         else:
             self.image = croppedImage
