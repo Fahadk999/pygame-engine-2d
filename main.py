@@ -1,15 +1,15 @@
 import pygame
-from particles.particleEffect import ParticleEffect
+from button.buttonStd import Button
 pygame.init()
 
-width, height = 720, 720
+swidth, sheight = 720, 720
 
-screen = pygame.display.set_mode((width, height), pygame.NOFRAME)
+screen = pygame.display.set_mode((swidth, sheight), pygame.NOFRAME)
 clock = pygame.time.Clock()
 running = True
 bg = "#2b7aa8"
 
-effect = ParticleEffect(10, 5)
+button = Button(swidth//2, sheight//2)
 
 while running:
     dt = clock.tick(60)/1000 # for time in sec rather then mili sec
@@ -22,9 +22,9 @@ while running:
 
     keys = pygame.key.get_pressed()
 
-    effect.update(dt, width//2, height//2, -30, 5, 140, 1)
+    button.hover(pygame.mouse.get_pos())
     screen.fill(bg)
-    effect.draw(screen)
+    button.draw(screen)
 
     pygame.display.flip()
 
