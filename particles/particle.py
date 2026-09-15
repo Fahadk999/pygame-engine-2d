@@ -10,7 +10,9 @@ class Particle(pygame.sprite.Sprite):
         self.floatY = y
         w = 8
         self.width, self.height = w, w
+        self.color = pygame.Color("yellow")
         self.image = pygame.Surface((self.width, self.height))
+        self.image.fill(self.color)
         self.rect = self.image.get_rect(center=(int(self.floatX), int(self.floatY)))
         
         if angleOffset == 0:
