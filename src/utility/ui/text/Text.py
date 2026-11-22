@@ -1,31 +1,30 @@
 import pygame
+from utility.ui.image.Image import Image
 # from abs_path import absPath
-# rename this file to Text.py
 
 class Text:
-    def __init__(self, text, posX, posY, font=None, size=48, color=pygame.Color("white")):
-        self.posX = posX
-        self.posY = posY
+    def __init__(self, x, y, text, font=None, size=48, color=pygame.Color("white")):
+        self.x, self.y = x, y
         self.color = color
         self.text = str(text)
         
         self.font = pygame.font.Font(font, size)
         self.surface = self.font.render(self.text, True, self.color)
-        self.rect = self.surface.get_rect(center=(self.posX, self.posY))
+        self.rect = self.surface.get_rect(center=(self.x, self.y))
         self.glow = False
         self.glowTimer = 0
         self._glowInterval = 300
 
     def Draw (self, screen):
         screen.blit(self.surface, self.rect)
-        pygame.draw.rect(screen, "red", self.rect, width=2)
+        pygame.draw.rect(screen, "red", self.rect)
 
     def EnableGlow (self):
         self.glow = True
 
     def SetText (self, text):
         self.surface = self.font.render(str(text), True, self.color)
-        self.rect = self.surface.get_rect(center=(self.posX, self.posY))
+        self.rect = self.surface.get_rect(center=(self.x, self.y))
 
     def UpdatePos (self, newX, newY):
         self.rect = self.surface.get_rect(center=(newX, newY))
