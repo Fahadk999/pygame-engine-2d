@@ -3,8 +3,7 @@ import pygame
 from ..text.Text import Text
 from ..image.Image import Image
 
-# img bool for hover
-# if wi heigh none the auto
+#transitno animatin is left make it so that it take transition time
 class Button:
     def __init__ (
             self, x, y,
@@ -30,8 +29,8 @@ class Button:
             self.image.fill((self.color))
             self.rect = self.image.get_rect(center=(self.x, self.y))
         else:
-            self.image = Image(x, y, path) # get image for this for more flexibitlity
-            self.rect = self.image.rect
+            self.image = Image.GetImage(path) 
+            self.rect = Image.GetImageRect(x, y, self.image)
             self.isImage = True
 
         # Text of Button
@@ -65,17 +64,14 @@ class Button:
                     return function(*args)
    
     def ChangeScale (self):
-        if not(self.path == None):
-            pass
+        if self.isHovered:
+            if not self.scaled:
+                self.image = pygame.transform.scale_by(self.image, self.hoverScale)
+                self.scaled = True
         else:
-            if self.isHovered:
-                if not self.scaled:
-                    self.image = pygame.transform.scale_by(self.image, self.hoverScale)
-                    self.scaled = True
-            else:
-                if self.scaled:
-                    self.image = pygame.transform.scale_by(self.image, 1/self.hoverScale)
-                    self.scaled = False
+            if self.scaled:
+                self.image = pygame.transform.scale_by(self.image, 1/self.hoverScale)
+                self.scaled = False
 
         self.rect = self.image.get_rect(center=(self.x, self.y))
 
