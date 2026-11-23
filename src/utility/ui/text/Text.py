@@ -17,7 +17,6 @@ class Text:
 
     def Draw (self, screen):
         screen.blit(self.surface, self.rect)
-        pygame.draw.rect(screen, "red", self.rect)
 
     def EnableGlow (self):
         self.glow = True
