@@ -9,7 +9,7 @@ screen = pygame.display.set_mode((swidth, sheight), pygame.NOFRAME)
 clock = pygame.time.Clock()
 running = True
 path = "assets/player/player.png"
-btn = Button(swidth//2, sheight//2, path=path)
+btn = Button(swidth//2, sheight//2, path=path, text="Hel")
 
 while running:
     events = pygame.event.get()
@@ -23,6 +23,7 @@ while running:
     dt = clock.tick(60)
 
     screen.fill(pygame.Color("lightblue"))
+    btn.Hover()
     btn.Draw(screen)
 
     pygame.display.flip()

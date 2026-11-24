@@ -5,18 +5,26 @@ class Image:
         self.path = path
         self.x, self.y = x, y
 
-        self.rawImage = pygame.image.load(self.path).convert_alpha()
-        self.tightBounds = self.rawImage.get_bounding_rect()
-        self.croppedImage = self.rawImage.subsurface(self.tightBounds).copy()
-        
+        self.image = self.GetImage(path, scale)
+        self.rect = self.image.get_rect(center=(x, y))
+
+    @classmethod
+    def GetImage (cls, path, scale=1.0):
+        rawImage = pygame.image.load(path).convert_alpha()
+        tightBounds = rawImage.get_bounding_rect()
+        croppedImage = rawImage.subsurface(tightBounds).copy()
         if scale != 1.0:
-            self.image = pygame.transform.scale_by(
-                    self.croppedImage, scale
+            image = pygame.transform.scale_by(
+                    croppedImage, scale
                     )
         else:
-            self.image = self.croppedImage
+            image = croppedImage
 
-        self.rect = self.image.get_rect(center=(x, y))
+        return image
+
+    @classmethod
+    def GetImageRect (cls, x, y, image):
+        return image.get_rect(center=(x, y)) 
 
     def Draw (self, screen):
         screen.blit(self.image, self.rect)
