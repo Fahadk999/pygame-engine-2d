@@ -20,8 +20,10 @@ class Button:
         self.color = self.baseColor
         self.text = text
         self.path = path
+        self.defaultScale = 1.0
         self.scale = 1.0
-        self.hoverScale = 2.0
+        self.scaleRate = 0.04
+        self.maxScale = 1.2
         self._padding = 0
         
         if self.path == None:
@@ -65,12 +67,17 @@ class Button:
    
     def ChangeScale (self):
         if self.isHovered:
-            if not self.scaled:
-                self.image = pygame.transform.scale_by(self.image, self.hoverScale)
+            if self.scale <= self.maxScale:
+                self.scale += self.scaleRate
+                # newScale = self.maxScale if self.scale > self.maxScale else self.scale
+                self.image = pygame.transform.scale_by(self.image, self.scale)
                 self.scaled = True
         else:
-            if self.scaled:
-                self.image = pygame.transform.scale_by(self.image, 1/self.hoverScale)
+            # not returning to original size
+            if self.scale >= self.defaultScale: # <- remove self.scaled bool
+                self.scale -= self.scaleRate
+                # newScale = 0 if self.scale <= 0 else 1/self.scale 
+                self.image = pygame.transform.scale_by(self.image, self.scale)
                 self.scaled = False
 
         self.rect = self.image.get_rect(center=(self.x, self.y))
@@ -84,4 +91,5 @@ class Button:
             raise ValueError("Padding can not be 0 or smaller")
         self._padding = val
 
-        
+# whiel hover size++ to limit, !hover size-- to limit        
+# for practice add 0.25 to size
