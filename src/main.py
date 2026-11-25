@@ -10,6 +10,13 @@ clock = pygame.time.Clock()
 running = True
 path = "assets/player/player.png"
 btn = Button(swidth//2, sheight//2, text="Hel")
+colorList = [ "green", "blue", "orange", "pink" ]
+i = [0]
+def changeBg (i):
+    if i[0] < 4-1:
+        i[0] += 1
+    else:
+        i[0] = 0
 
 while running:
     events = pygame.event.get()
@@ -22,7 +29,8 @@ while running:
 
     dt = clock.tick(60)
 
-    screen.fill(pygame.Color("lightblue"))
+    btn.Click(events, changeBg, i)
+    screen.fill(pygame.Color(colorList[i[0]]))
     btn.Hover()
     btn.Draw(screen)
 
