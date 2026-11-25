@@ -1,9 +1,7 @@
 import pygame
-#fix path for your text file
 from ..text.Text import Text
 from ..image.Image import Image
 
-#transitno animatin is left make it so that it take transition time
 class Button:
     def __init__ (
             self, x, y,
@@ -66,6 +64,7 @@ class Button:
                     return function(*args)
    
     def ChangeScale (self):
+        # add time for scaling
         if self.isHovered:
             if self.scale < self.maxScale:
                 self.scale += self.scaleRate
@@ -86,6 +85,3 @@ class Button:
         if val < 0:
             raise ValueError("Padding can not be 0 or smaller")
         self._padding = val
-
-# whiel hover size++ to limit, !hover size-- to limit        
-# for practice add 0.25 to size
