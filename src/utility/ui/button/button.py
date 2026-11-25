@@ -35,11 +35,11 @@ class Button:
             self.rect = Image.GetImageRect(x, y, self.image)
             self.isImage = True
 
+        self.origImage = self.image.copy() # for scaling proper
         # Text of Button
         self.text = Text(self.rect.centerx, self.rect.centery, f"{text}", size=size)
         
         self.isHovered = False
-        self.scaled = False
         self.colorChange = True
 
     def Draw (self, screen):
@@ -67,19 +67,15 @@ class Button:
    
     def ChangeScale (self):
         if self.isHovered:
-            if self.scale <= self.maxScale:
+            if self.scale < self.maxScale:
                 self.scale += self.scaleRate
-                # newScale = self.maxScale if self.scale > self.maxScale else self.scale
-                self.image = pygame.transform.scale_by(self.image, self.scale)
-                self.scaled = True
+                self.scale = self.maxScale if self.scale > self.maxScale else self.scale
         else:
-            # not returning to original size
-            if self.scale >= self.defaultScale: # <- remove self.scaled bool
+            if self.scale > self.defaultScale: 
                 self.scale -= self.scaleRate
-                # newScale = 0 if self.scale <= 0 else 1/self.scale 
-                self.image = pygame.transform.scale_by(self.image, self.scale)
-                self.scaled = False
+                self.scale = self.defaultScale if self.scale < self.defaultScale else self.scale
 
+        self.image = pygame.transform.scale_by(self.origImage, self.scale)
         self.rect = self.image.get_rect(center=(self.x, self.y))
 
     @property

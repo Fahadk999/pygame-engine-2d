@@ -9,7 +9,7 @@ screen = pygame.display.set_mode((swidth, sheight), pygame.NOFRAME)
 clock = pygame.time.Clock()
 running = True
 path = "assets/player/player.png"
-btn = Button(swidth//2, sheight//2, path=path, text="Hel")
+btn = Button(swidth//2, sheight//2, text="Hel")
 
 while running:
     events = pygame.event.get()
