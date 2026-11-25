@@ -1,9 +1,7 @@
 import pygame
-#fix path for your text file
 from ..text.Text import Text
 from ..image.Image import Image
 
-#transitno animatin is left make it so that it take transition time
 class Button:
     def __init__ (
             self, x, y,
@@ -20,8 +18,10 @@ class Button:
         self.color = self.baseColor
         self.text = text
         self.path = path
+        self.defaultScale = 1.0
         self.scale = 1.0
-        self.hoverScale = 2.0
+        self.scaleRate = 0.04
+        self.maxScale = 1.2
         self._padding = 0
         
         if self.path == None:
@@ -33,11 +33,11 @@ class Button:
             self.rect = Image.GetImageRect(x, y, self.image)
             self.isImage = True
 
+        self.origImage = self.image.copy() # for scaling proper
         # Text of Button
         self.text = Text(self.rect.centerx, self.rect.centery, f"{text}", size=size)
         
         self.isHovered = False
-        self.scaled = False
         self.colorChange = True
 
     def Draw (self, screen):
@@ -64,15 +64,17 @@ class Button:
                     return function(*args)
    
     def ChangeScale (self):
+        # add time for scaling
         if self.isHovered:
-            if not self.scaled:
-                self.image = pygame.transform.scale_by(self.image, self.hoverScale)
-                self.scaled = True
+            if self.scale < self.maxScale:
+                self.scale += self.scaleRate
+                self.scale = self.maxScale if self.scale > self.maxScale else self.scale
         else:
-            if self.scaled:
-                self.image = pygame.transform.scale_by(self.image, 1/self.hoverScale)
-                self.scaled = False
+            if self.scale > self.defaultScale: 
+                self.scale -= self.scaleRate
+                self.scale = self.defaultScale if self.scale < self.defaultScale else self.scale
 
+        self.image = pygame.transform.scale_by(self.origImage, self.scale)
         self.rect = self.image.get_rect(center=(self.x, self.y))
 
     @property
@@ -83,5 +85,3 @@ class Button:
         if val < 0:
             raise ValueError("Padding can not be 0 or smaller")
         self._padding = val
-
-        
