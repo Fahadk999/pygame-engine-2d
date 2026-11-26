@@ -53,15 +53,15 @@ class Button:
         self.isHovered = self.rect.collidepoint(pos)
         self.ChangeScale()
 
-    def ChangeColor (self): # not used any where btw
-        if self.colorChange and self.isHovered:
-            self.color = self.hoverColor
-            self.origImage.fill((self.color))
-        else:
-            self.color = self.baseColor
-            self.origImage.fill((self.color))
+    # def ChangeColor (self): # not used any where btw
+    #     if self.colorChange and self.isHovered:
+    #         self.color = self.hoverColor
+    #         self.origImage.fill((self.color))
+    #     else:
+    #         self.color = self.baseColor
+    #         self.origImage.fill((self.color))
 
-    def Click (self, events, function, *args) -> Any:
+    def Click (self, events, function, *args):
         for e in events:
             if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                 if self.isHovered:
@@ -69,6 +69,7 @@ class Button:
                     return function(*args)
             elif e.type == pygame.MOUSEBUTTONUP and e.button == 1:
                 self.origImage.fill(self.baseColor)
+                return
    
     def ChangeScale (self):
         # add time for scaling

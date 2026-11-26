@@ -1,5 +1,5 @@
 import pygame
-from utility.ui.button.button import Button
+from ..pygame_utils.ui.button.Button import Button
 
 pygame.init()
 
