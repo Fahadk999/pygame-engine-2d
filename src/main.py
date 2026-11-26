@@ -9,7 +9,7 @@ screen = pygame.display.set_mode((swidth, sheight), pygame.NOFRAME)
 clock = pygame.time.Clock()
 running = True
 path = "assets/player/player.png"
-btn = Button(swidth//2, sheight//2, text="Hel")
+btn = Button(swidth//2, sheight//2, padding=20, text="Hel")
 colorList = [ "green", "blue", "orange", "pink" ]
 i = [0]
 def changeBg (i):

@@ -5,11 +5,12 @@ from ..image.Image import Image
 class Button:
     def __init__ (
             self, x, y,
-            width=100, height=100,
-            text="Button", size=30,
+            width=None, height=None,
+            text="Button", size=30, padding = 0,
             path=None
         ):
         self.x, self.y = x, y
+        # if width and height = none auto take height
         self.width, self.height = width, height
         self.isImage = False
 
@@ -22,10 +23,14 @@ class Button:
         self.scale = 1.0
         self.scaleRate = 0.04
         self.maxScale = 1.2
-        self._padding = 0
+        self._padding = padding
         
+        self.text = Text(self.x, self.y, f"{text}", size=size)
         if self.path == None:
-            self.image = pygame.Surface((width, height))
+            if width == None and height == None:
+                self.width = self.text.rect.width
+                self.height = self.text.rect.height
+            self.image = pygame.Surface((self.width + padding, self.height + padding))
             self.image.fill((self.color))
             self.rect = self.image.get_rect(center=(self.x, self.y))
         else:
@@ -35,7 +40,6 @@ class Button:
 
         self.origImage = self.image.copy() # for scaling proper
         # Text of Button
-        self.text = Text(self.rect.centerx, self.rect.centery, f"{text}", size=size)
         
         self.isHovered = False
         self.colorChange = True
@@ -49,13 +53,13 @@ class Button:
         self.isHovered = self.rect.collidepoint(pos)
         self.ChangeScale()
 
-    def ChangeColor (self):
+    def ChangeColor (self): # not used any where btw
         if self.colorChange and self.isHovered:
             self.color = self.hoverColor
-            self.image.fill((self.color))
+            self.origImage.fill((self.color))
         else:
             self.color = self.baseColor
-            self.image.fill((self.color))
+            self.origImage.fill((self.color))
 
     def Click (self, events, function, *args) -> Any:
         for e in events:
