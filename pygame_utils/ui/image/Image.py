@@ -6,6 +6,7 @@ class Image:
         self.x, self.y = x, y
 
         self.image = self.GetImage(path, scale)
+        self.origImage = self.image.copy()
         self.rect = self.image.get_rect(center=(x, y))
 
     @classmethod
@@ -31,7 +32,7 @@ class Image:
 
     def Resize (self, newScale):
         self.image = pygame.transform.scale_by(
-                self.croppedImage, scale
+                self.origImage, newScale
                 )
         self.rect = self.image.get_rect(center=(self.x, self.y))
 
