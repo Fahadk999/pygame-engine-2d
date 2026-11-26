@@ -1,6 +1,4 @@
 import pygame
-from utility.ui.image.Image import Image
-# from abs_path import absPath
 
 class Text:
     def __init__(self, x, y, text, font=None, size=48, color=pygame.Color("white")):
