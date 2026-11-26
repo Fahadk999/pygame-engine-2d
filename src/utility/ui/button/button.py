@@ -31,7 +31,7 @@ class Button:
         else:
             self.image = Image.GetImage(path) 
             self.rect = Image.GetImageRect(x, y, self.image)
-            self.isImage = True
+            self.isImage = True # for hover and click color switch
 
         self.origImage = self.image.copy() # for scaling proper
         # Text of Button
@@ -61,7 +61,10 @@ class Button:
         for e in events:
             if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                 if self.isHovered:
+                    self.origImage.fill(pygame.Color("white"))
                     return function(*args)
+            elif e.type == pygame.MOUSEBUTTONUP and e.button == 1:
+                self.origImage.fill(self.baseColor)
    
     def ChangeScale (self):
         # add time for scaling
