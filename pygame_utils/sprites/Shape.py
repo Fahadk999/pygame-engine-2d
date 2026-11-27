@@ -1,15 +1,20 @@
 import pygame
+from pygame_utils.physics.RigidBody import RigidBody
 
-class Shape: # inhreit rigid body here
-    def __init__ (self, x, y, width, height, color=pygame.Color("red"), isCircle=False):
-        # player controller for wasd
-        self.x, self.y = x, y
+# later make controler indep of shape class
+
+class Shape:                                                                       # RigibBodyBool 
+    def __init__ (self, x, y, width, height, color=pygame.Color("red"), isCircle=False, RB=False):
+        self.x, self.y = float(x), float(y)
         self.isCircle = isCircle
         self.color = color
         self.width, self.height = width, height
         self.surface = pygame.Surface((width, height), pygame.SRCALPHA)
-        self.rect = self.surface.get_rect(center=(x, y))
+        self.rect = self.surface.get_rect(center=(self.x, self.y))
+        self.speed = 100
+        self.rigidBody = RigidBody(self.x, self.y) if RB else None
 
+        # Player controller for wasd
         self.playerCtrler = False
         self.isImg = False # will implement later
 
@@ -21,29 +26,37 @@ class Shape: # inhreit rigid body here
             self.surface.fill(self.color)
 
     @classmethod
-    def Circle (cls, x, y, radius, color=pygame.Color("red")):
+    def Circle (cls, x, y, radius, color=pygame.Color("red"), RB=False):
         diameter = radius*2
-        return cls(x, y, diameter, diameter, color, isCircle=True)
+        return cls(x, y, diameter, diameter, color, isCircle=True, RB=RB)
 
     @classmethod
-    def Rectangle (cls, x, y, width, height, color=pygame.Color("red")):
-        return cls(x, y, width, height, color, isCircle=False)
+    def Rectangle (cls, x, y, width, height, color=pygame.Color("red"), RB=False):
+        return cls(x, y, width, height, color, isCircle=False, RB=RB)
 
     def Draw (self, screen):
         screen.blit(self.surface, self.rect)
 
-    def Update (self, dt): # make sure to dt/1000 when using
+    def Update (self, dt): 
+        # Make sure dt/1000 when using aka its seconds not ms
         if self.playerCtrler:
             self.Contoller(dt)
+        if self.rigidBody != None:
+            self.rect.centery = self.rigidBody.Update(dt)
 
     def Contoller (self, dt):
         keys = pygame.key.get_pressed()
+        dx, dy = 0, 0
         if (keys[pygame.K_UP] or  keys[pygame.K_w]):
-            # self.rect.x = 0
-            pass
+            dy = -1
         if (keys[pygame.K_DOWN] or  keys[pygame.K_s]):
-            pass
+            dy = 1
         if (keys[pygame.K_LEFT] or  keys[pygame.K_a]):
-            pass
+            dx = -1
         if (keys[pygame.K_RIGHT] or  keys[pygame.K_d]):
-            pass
+            dx = 1
+
+        self.x += dx * self.speed * dt
+        self.y += dy * self.speed * dt
+        
+        self.rect.center = (round(self.x), round(self.y))

@@ -9,8 +9,9 @@ screen = pygame.display.set_mode((swidth, sheight), pygame.NOFRAME)
 clock = pygame.time.Clock()
 running = True
 x, y = swidth//2, sheight//2
-circle = Shape.Circle(x-100, y, 80)
-rectangle = Shape.Rectangle(x+100, y, 100, 50, pygame.Color("blue"))
+circle = Shape.Circle(x-100, y, 80, RB=True)
+floor = Shape.Rectangle(x, swidth, swidth, 150, pygame.Color("blue"))
+circle.playerCtrler = True
 
 while running:
     events = pygame.event.get()
@@ -21,11 +22,12 @@ while running:
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             running = False
 
-    dt = clock.tick(60)
-
+    dt = clock.tick(60) / 1000
+    circle.Update(dt)
+    # floor.Update(dt)
     screen.fill(pygame.Color("cyan"))
     circle.Draw(screen)
-    rectangle.Draw(screen)
+    floor.Draw(screen)
     pygame.display.flip()
 
 pygame.quit()
